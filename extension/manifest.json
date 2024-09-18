@@ -1,0 +1,28 @@
+{
+    "manifest_version": 3,
+    "name": "WebExtension Event Recorder",
+    "short_name": "Recorder",
+    "version": "1.0.0",
+    "key": "MIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQC17Hnj4Iw0VAartEr2Db+1AQPHz9Or9bFwq5oOXyIGhMdh55snQKqr9u0YHZf8yFnhpWbkt0nKj4VV/Pl8WTzpRRXHARQlqrg7YPTScjh/EngqGnfalilfE9e7jBTNArwGMRYT0rXnn73f748wMSPU4qHNNFDYdy9JS0sKDovtzHdZdbDnmEyCyGOYQdcJU5fG9o6EwiXOg5/YSP8IEvxV4YPnbgN+rTaXtyUfEa6Llcqxk/F1euZ88aT5VZzinrZu+8C58/6ms8dZ743sIocc/sCgPVPqYCU4JQa+mKEoViEMWEHzyHgtZ2iukNPDieN6G9XogMviMiK9pKzxBuQvAgMBAAECggEAWI8wWuTxe3u375gJsbPJsfQ3gepCsYAeC6oNiZd3+dJjON7FIZuSObovesDVPwHM91JMP2SWMFwjXVOTo5vRUgEGc+SriRaNLqKpK1Tc+cbk5iISXD8jDpybNTog2hfNrfnxNF8rnACgLsXwX1ZcigJ1H26rOGT0iOp1MgUYyv4cztjDdGveeTJqGQWhBwfm/TTqcRQibnuXdhyAii7J/VuVuNJJRgUjyEhtQVpmorwsH+lw+SmR87zX4MpEji5FngmJIUoBnOt4673ECicLwEBxB01UdkiVbJ8T4A+Fu8/DK6lMWhZPRlHuYPgK9733gruOl9Zo5pO4qwTRYtSCAQKBgQD2xx4vTlDcG0ViuVAqWhtMwEpJ2sBBwKH6ARpH7kRw1VR6HYVna6iMGhUSKkWMIO1AwoFtJmZYzDAL3kxL6yB+k4iiDKxnKDkz1XzHvj3BBvMNlQ7ERbCmiQEr/D52+mE3xxjWcda2kTNvgyG7WOhgNLlVBaJLiJ8otMvbhRptLwKBgQC8uOkAOJly0bLRZ0uortv/RH46O4Ycjnqj2EpGCFffL8gQhJIEt4/LFQjMECezOPUNRnwaD+BYp70RQbp/pAJlf0HLAClrzV2BYXTvN2CxtcCU2aci8N47GgUgGrJixbuX9vNdhKKeFNjZ/OngRaW3Kq/znWT/yMc6qBHX+vM5AQKBgQDuvBjWePQ+y18nr9D+9+bbLFdx9V7y/VF106VCGx447hhofrC1KXCIAR+LUDux4ZTEhqbBGln+46JDiQ3UkCYCbeXLp2kN7trP62NotQF3AKsX47DCbg0EPxxUGhWv8m8kj8bWhpDKU9Qnt/tlDBDaKYd12hp06jnXHnjs6Gp1XwKBgDuBMjZXokqJxBAyubBeMg+y0PobepXWduTidcjPKKW+sx5CLqg+GKC36SYukdX4x4uABfFRwDMz8HFYgC1u0TKfhWc0jdrnzevVhsFGfL6LyEUmu4RQ3kFUWvlccZKjNhscSm/aOkwN1rIlBLkqPK4cT45IumfMLsVX6Qhon/gBAoGBAMj7guvM2jrKskX2U5iI0MiLyp61FSk0RpcRHlu3gGNYjS/JA3qIdHrDR8VY2uuLjsJDC2aI8P5aQ6T72nuHzt5g99iLZ4aYcYhr1eyNJI2pOJ8L4bOIrqzzmOEoAFv5hAcgnh0tIs4eMyyyxtr8+6Fg94CGLvH0mBvRhVbdeVY9",
+    "permissions": [
+      "webNavigation",
+      "tabs",
+      "windows",
+      "webRequest"
+    ],
+    "host_permissions": [
+      "http://*/*",
+      "https://*/*",
+      "ws://*/*",
+      "wss://*/*"
+    ],
+    "background": {
+      "service_worker": "index.js",
+      "scripts": ["index.js"]
+    },
+    "browser_specific_settings": {
+        "gecko": {
+            "id": "test@test.com"
+        }
+    }
+  }

@@ -1,0 +1,18 @@
+{
+  "name": "@ghostery/webextension-event-recorder",
+  "version": "0.0.1",
+  "description": "",
+  "type": "module",
+  "main": "index.js",
+  "scripts": {
+    "start.chrome": "node src/index.js chrome",
+    "start.firefox": "node src/index.js firefox"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "get-port": "^7.1.0",
+    "web-ext": "^8.3.0",
+    "webdriverio": "^9.0.9"
+  }
+}
