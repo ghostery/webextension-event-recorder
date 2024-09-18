@@ -11,13 +11,18 @@ try {
 
   for (const scenario of getScenariors()) {
     console.warn(`scenario ${scenario}: Start`);
+    let recordingStart;
+    let recordingEnd;
     try {
-      await runScenario(browser, scenario);
+      const output = await runScenario(browser, scenario);
+      recordingStart = output.start;
+      recordingEnd = output.end;
       console.warn(`scenario ${scenario}: End`);
     } catch(e) {
       console.error(e);
     } finally {
-      const events = await evaluate(browser, recorder, "window.events");
+      let events = await evaluate(browser, recorder, "window.events");
+      events = events.filter(event => event.startedAt > recordingStart && event.startedAt < recordingEnd);
       console.warn(`scenario ${scenario}: recorder ${events.length} events`);
       saveEvents(scenario, events);
       await browser.switchToWindow(recorder)

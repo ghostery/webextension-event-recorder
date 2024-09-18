@@ -12,6 +12,8 @@ export function getScenariors() {
 }
 
 export async function runScenario(browser, name) {
+  const start = Date.now();
+  let end;
   await browser.newWindow('about:blank', {
     windowName: name,
   });
@@ -21,6 +23,8 @@ export async function runScenario(browser, name) {
     const module = await import(path.join(scenariorsPath, `${name}.js`));
     await module.default(browser);
   } finally {
+    end = Date.now();
     await browser.closeWindow();
   }
+  return { start, end };
 }
