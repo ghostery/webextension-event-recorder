@@ -24,7 +24,11 @@ try {
       let events = await evaluate(browser, recorder, "window.events");
       events = events.filter(event => event.startedAt > recordingStart && event.startedAt < recordingEnd);
       console.warn(`scenario ${scenario}: recorder ${events.length} events`);
-      saveEvents(scenario, events);
+
+      saveEvents(scenario, events, {
+        compress: process.argv.includes('--compress'),
+      });
+
       await browser.switchToWindow(recorder)
       // refresh to clean the events list
       await browser.navigateTo(getExtensionUrl('tab.html'));

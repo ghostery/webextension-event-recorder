@@ -22,10 +22,10 @@ jobs:
           GITHUB_TOKEN: ${{ github.token }}
 
       - name: Record Chrome
-        run: npm run start.chrome
+        run: npm run start.chrome -- --compress
 
       - name: Record Firefox
-        run: npm run start.firefox
+        run: npm run start.firefox -- --compress
 
       - name: Upload artifacts
         uses: softprops/action-gh-release@v2
