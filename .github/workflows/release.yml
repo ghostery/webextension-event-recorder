@@ -1,0 +1,35 @@
+name: Upload builds to release
+
+on:
+  release:
+    types:
+      - prereleased
+  workflow_dispatch:
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+      - uses: jdx/mise-action@v2
+      - run: npm ci
+
+      - name: Get release
+        id: get_release
+        uses: bruceadams/get-release@v1.3.2
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+
+      - name: Record Chrome
+        run: npm run start.chrome
+
+      - name: Record Firefox
+        run: npm run start.firefox
+
+      - name: Upload artifacts
+        uses: softprops/action-gh-release@v2
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        with:
+          files: output/*
