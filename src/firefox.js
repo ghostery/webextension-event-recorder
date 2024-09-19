@@ -10,7 +10,10 @@ export async function getFirefox() {
     capabilities: {
       browserName: "firefox",
       "moz:firefoxOptions": {
-        args: [`--start-debugger-server=${rppPort}`],
+        args: [
+          `--start-debugger-server=${rppPort}`,
+          '-headless',
+        ],
         prefs: {
           "devtools.chrome.enabled": true,
           "devtools.debugger.prompt-connection": false,

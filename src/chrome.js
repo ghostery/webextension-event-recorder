@@ -1,4 +1,4 @@
-import { remote } from 'webdriverio';
+import { remote } from "webdriverio";
 import { getExtensionPath } from "./extension.js";
 
 export async function getChrome() {
@@ -8,6 +8,7 @@ export async function getChrome() {
       webSocketUrl: true,
       "goog:chromeOptions": {
         args: [
+          "headless",
           `--load-extension=${getExtensionPath()}`,
           "--disable-search-engine-choice-screen",
         ],
