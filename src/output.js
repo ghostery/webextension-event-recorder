@@ -5,9 +5,9 @@ import { PROJECT_ROOT_PATH } from "./path.js";
 import { getBrowserName } from "./browser.js";
 
 export function saveEvents(scenario, events) {
-  const outputFolderPath = path.join(PROJECT_ROOT_PATH, 'output', scenario);
+  const outputFolderPath = path.join(PROJECT_ROOT_PATH, 'output');
   fs.mkdirSync(outputFolderPath, { recursive: true });
-  const outputFilePath = path.join(outputFolderPath, `${getBrowserName()}.json`);
+  const outputFilePath = path.join(outputFolderPath, `events_${scenario}_${getBrowserName()}.json`);
   if (fs.existsSync(outputFilePath)) {
     fs.unlinkSync(outputFilePath);
   }
