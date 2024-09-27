@@ -15,6 +15,8 @@ jobs:
       - uses: jdx/mise-action@v2
       - run: npm ci
 
+      - run: npx puppeteer browsers install firefox
+
       - name: Record Chrome
         run: npm run start.chrome
 
