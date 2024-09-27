@@ -10,6 +10,9 @@ try {
   const recorder = await browser.newWindow(getExtensionUrl('tab.html'));
 
   for (const scenario of getScenariors()) {
+    // wait some time between the tests for browser activity to settle
+    await new Promise(r => setTimeout(r, 1000));
+
     console.warn(`scenario ${scenario}: Start`);
     let recordingStart;
     let recordingEnd;
