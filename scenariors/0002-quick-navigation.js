@@ -1,6 +1,7 @@
 // loads two websites one after other
 export default async function (browser) {
-  await browser.navigateTo("https://ghosterysearch.com/");
-  await browser.navigateTo("https://facebook.com/");
-  await browser.waitUntil(() => browser.$('.fb_logo'));
+  const page = await browser.newPage();
+  await page.goto("https://ghosterysearch.com/");
+  await page.goto("https://facebook.com/");
+  await page.waitForSelector('.fb_logo');
 }
