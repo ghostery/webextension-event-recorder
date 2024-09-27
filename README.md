@@ -8,6 +8,13 @@ Record events from Chrome with `npm run start.chrome`
 
 Record events from Firefox with `npm run start.firefox`
 
+## Setup
+
+Be sure to install Firefox if you wish to run scenariors with it:
+
+```
+npx puppeteer browsers install firefox
+```
 
 ## Debugging
 
