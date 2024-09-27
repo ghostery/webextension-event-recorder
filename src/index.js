@@ -1,4 +1,3 @@
-import { evaluate } from "./bidi.js";
 import { getBrowser } from "./browser.js";
 import { getExtensionUrl } from "./extension.js";
 import { saveEvents } from "./output.js";
@@ -7,7 +6,10 @@ import { getScenariors, runScenario } from "./scenariors.js";
 const browser = await getBrowser();
 
 try {
-  const recorder = await browser.newWindow(getExtensionUrl('tab.html'));
+  const [recorder] = await browser.pages();
+
+  // TODO: should await, but in hangs on Firefox
+  recorder.goto(getExtensionUrl('tab.html'));
 
   for (const scenario of getScenariors()) {
     console.warn(`scenario ${scenario}: Start`);
@@ -21,7 +23,7 @@ try {
     } catch(e) {
       console.error(e);
     } finally {
-      let events = await evaluate(browser, recorder, "window.events");
+      let events = await recorder.evaluate('window.events')
       events = events.filter(event => event.startedAt > recordingStart && event.startedAt < recordingEnd);
       console.warn(`scenario ${scenario}: recorder ${events.length} events`);
 
@@ -29,12 +31,14 @@ try {
         compress: process.argv.includes('--compress'),
       });
 
-      await browser.switchToWindow(recorder)
-      // refresh to clean the events list
-      await browser.navigateTo(getExtensionUrl('tab.html'));
+      // TODO: should use reload, but it hangs on Firefox
+      // await recorder.reload();
+      recorder.goto(getExtensionUrl('tab.html'));
+      await new Promise(r => setTimeout(r, 200));
     }
   }
 } finally {
-  await browser.deleteSession();
+  // Firefox will log error: `TargetCloseError: Frame detached.` - it can be ignored
+  await browser.close();
 }
 

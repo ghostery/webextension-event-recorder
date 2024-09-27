@@ -14,17 +14,19 @@ export function getScenariors() {
 export async function runScenario(browser, name) {
   const start = Date.now();
   let end;
-  await browser.newWindow('about:blank', {
-    windowName: name,
-  });
-  const handles = await browser.getWindowHandles();
-  await browser.switchToWindow(handles.at(-1));
+
   try {
     const module = await import(path.join(scenariorsPath, `${name}.js`));
     await module.default(browser);
   } finally {
     end = Date.now();
-    await browser.closeWindow();
+
+    // recorder is always the first page
+    const [_, ...pages] = await browser.pages();
+    for (const page of pages) {
+      await page.close();
+    }
   }
+
   return { start, end };
 }

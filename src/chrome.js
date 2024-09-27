@@ -1,19 +1,17 @@
-import { remote } from "webdriverio";
+import puppeteer from "puppeteer";
 import { getExtensionPath } from "./extension.js";
 
 export async function getChrome() {
-  const browser = await remote({
-    capabilities: {
-      browserName: "chrome",
-      webSocketUrl: true,
-      "goog:chromeOptions": {
-        args: [
-          "headless",
-          `--load-extension=${getExtensionPath()}`,
-          "--disable-search-engine-choice-screen",
-        ],
-      },
-    },
+  const extensionPath = getExtensionPath();
+  const browser = puppeteer.launch({
+    product: "chrome",
+    headless: true,
+    protocol: "webDriverBiDi",
+    args: [
+      `--load-extension=${extensionPath}`,
+      `--disable-extensions-except=${extensionPath}`,
+      "--disable-search-engine-choice-screen",
+    ]
   });
   return browser;
 }

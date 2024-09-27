@@ -1,6 +1,7 @@
 import http from 'node:http';
 
 export default async function (browser) {
+  const page = await browser.newPage();
   let server;
   try {
     server = http.createServer(function (_, res) {
@@ -12,7 +13,7 @@ export default async function (browser) {
       `);
       res.end();
     }).listen(8080, ()=> {});
-    await browser.navigateTo("http://localhost:8080");
+    await page.goto("http://localhost:8080");
     // TODO: required for Firefox - find something to wait for that will be faster
     await new Promise(r => setTimeout(r, 1000));
   } finally {
