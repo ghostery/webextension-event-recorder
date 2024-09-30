@@ -1,5 +1,6 @@
 import http from 'node:http';
 
+// prefetch resource from subdomain
 export default async function (browser) {
   let server;
   try {
