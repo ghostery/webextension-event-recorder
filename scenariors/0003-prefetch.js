@@ -6,7 +6,7 @@ export default async function (browser) {
     server = http.createServer(function (_, res) {
       res.write(`
         <html>
-        <link rel="prefetch" href="prefetch.html" />
+        <link rel="prefetch" href="http://subdomain.localhost:8080/prefetch.html" />
         <h1>0003-prefetch</h1>
         </html>
       `);
