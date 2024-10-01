@@ -12,6 +12,10 @@ export async function getChrome() {
           `--load-extension=${getExtensionPath()}`,
           "--disable-search-engine-choice-screen",
         ],
+        prefs: {
+          // enable "Extended preloading" for speculationrules
+          "net.network_prediction_options": 3,
+        },
       },
     },
   });

@@ -6,10 +6,15 @@ import { getScenariors, runScenario } from "./scenariors.js";
 
 const browser = await getBrowser();
 
+const only = process.argv.includes('--only') ? process.argv[process.argv.findIndex(o => o === '--only') + 1]  : false;
+
 try {
   const recorder = await browser.newWindow(getExtensionUrl('tab.html'));
 
   for (const scenario of getScenariors()) {
+    if (only && !scenario.startsWith(only)) {
+      continue;
+    }
     // wait some time between the tests for browser activity to settle
     await new Promise(r => setTimeout(r, 1000));
 
