@@ -17,14 +17,16 @@ export async function runScenario(browser, name) {
   await browser.newWindow('about:blank', {
     windowName: name,
   });
+
   const handles = await browser.getWindowHandles();
   await browser.switchToWindow(handles.at(-1));
-  try {
-    const module = await import(path.join(scenariorsPath, `${name}.js`));
-    await module.default(browser);
-  } finally {
-    end = Date.now();
-    await browser.closeWindow();
-  }
+
+  const module = await import(path.join(scenariorsPath, `${name}.js`));
+  await module.default(browser);
+
+  end = Date.now();
+
+  await browser.closeWindow();
+
   return { start, end };
 }

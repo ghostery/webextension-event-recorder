@@ -8,6 +8,8 @@ const browser = await getBrowser();
 
 const only = process.argv.includes('--only') ? process.argv[process.argv.findIndex(o => o === '--only') + 1]  : false;
 
+let crashed = false;
+
 try {
   const recorder = await browser.newWindow(getExtensionUrl('tab.html'));
 
@@ -26,9 +28,7 @@ try {
       recordingStart = output.start;
       recordingEnd = output.end;
       console.warn(`scenario ${scenario}: End`);
-    } catch(e) {
-      console.error(e);
-    } finally {
+
       let events = await evaluate(browser, recorder, "window.events");
       events = events.filter(event => event.startedAt > recordingStart && event.startedAt < recordingEnd);
       console.warn(`scenario ${scenario}: recorder ${events.length} events`);
@@ -40,9 +40,16 @@ try {
       await browser.switchToWindow(recorder)
       // refresh to clean the events list
       await browser.navigateTo(getExtensionUrl('tab.html'));
+    } catch(e) {
+      console.error(e);
+      crashed = true;
+      throw e;
     }
   }
 } finally {
   await browser.deleteSession();
+  if (crashed) {
+    process.exit(1);
+  }
 }
 
