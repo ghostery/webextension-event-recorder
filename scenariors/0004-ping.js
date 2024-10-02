@@ -12,7 +12,7 @@ export default async function (browser, scenarioName) {
         </head>
         <body>
         <h1>${scenarioName}</h1>
-        <a href="http://localhost:8080/result" id="result" ping="http://localhost:8080/ping">link</a>
+        <a href="http://localhost:8080/result" id="result" ping="http://ping.localhost:8080/ping">link</a>
         </body>
         </html>
       `);
