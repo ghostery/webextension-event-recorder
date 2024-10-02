@@ -5,7 +5,7 @@ import { PROJECT_ROOT_PATH } from "./path.js";
 
 const scenariorsPath = path.join(PROJECT_ROOT_PATH, 'scenariors');
 
-export function getScenariors() {
+export function getScenarios() {
   return fs.readdirSync(scenariorsPath, { withFileTypes: true })
     .filter(file => !file.isDirectory())
     .map(file => path.basename(file.name, path.extname(file.name)))
@@ -22,7 +22,8 @@ export async function runScenario(browser, name) {
   await browser.switchToWindow(handles.at(-1));
 
   const module = await import(path.join(scenariorsPath, `${name}.js`));
-  await module.default(browser);
+
+  await module.default(browser, name);
 
   end = Date.now();
 
