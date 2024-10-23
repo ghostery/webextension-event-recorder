@@ -1,21 +1,22 @@
 import { evaluate } from "./bidi.js";
-import { getBrowser } from "./browser.js";
+import { getChrome } from "./chrome.js";
+import { getFirefox } from "./firefox.js";
 import { getExtensionUrl } from "./extension.js";
 import { saveEvents } from "./output.js";
 import { getScenarios, runScenario } from "./scenarios.js";
+import { ONLY, BROWSER, COMPRESS } from "./env.js";
 
-const browser = await getBrowser();
-
-const only = process.argv.includes('--only') ? process.argv[process.argv.findIndex(o => o === '--only') + 1]  : false;
+const browser = await (BROWSER === "firefox" ? getFirefox() : getChrome());
 
 let crashed = false;
 
 try {
   const recorder = await browser.newWindow(getExtensionUrl('tab.html'));
+
   let lastScenario;
 
   for (const scenario of getScenarios()) {
-    if (only && !scenario.startsWith(only)) {
+    if (ONLY && !scenario.startsWith(ONLY)) {
       continue;
     }
 
@@ -39,7 +40,7 @@ try {
       console.warn(`scenario ${scenario}: recorder ${events.length} events`);
 
       saveEvents(scenario, events, {
-        compress: process.argv.includes('--compress'),
+        compress: COMPRESS,
       });
 
       await browser.switchToWindow(recorder)

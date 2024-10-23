@@ -4,7 +4,7 @@ import { connect } from "../node_modules/web-ext/lib/firefox/remote.js";
 
 import { getExtensionPath, extensionId, getManifest } from "./extension.js";
 
-export async function getFirefox() {
+export async function getFirefox({ headless = true } = {}) {
   const rppPort = await getPort();
   const browser = await remote({
     capabilities: {
@@ -12,8 +12,8 @@ export async function getFirefox() {
       "moz:firefoxOptions": {
         args: [
           `--start-debugger-server=${rppPort}`,
-          '-headless',
-        ],
+          headless ? '-headless' : undefined,
+        ].filter(Boolean),
         prefs: {
           "devtools.chrome.enabled": true,
           "devtools.debugger.prompt-connection": false,
