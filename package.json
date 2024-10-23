@@ -6,7 +6,9 @@
   "main": "index.js",
   "scripts": {
     "start.chrome": "node src/index.js chrome",
-    "start.firefox": "node src/index.js firefox"
+    "start.firefox": "node src/index.js firefox",
+    "record.chrome": "node src/record.js chrome",
+    "record.firefox": "node src/record.js firefox"
   },
   "author": "",
   "license": "ISC",
