@@ -4,9 +4,7 @@
 export async function evaluate(browser, context, expression,) {
   const result = await browser.scriptEvaluate({
     expression,
-    target: {
-      context: typeof context === "string" ? context : context.handle,
-    },
+    target: { context },
     awaitPromise: false,
   });
   return parseScriptResult(result);
