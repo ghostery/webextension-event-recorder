@@ -1,4 +1,4 @@
-import { evaluate } from "./bidi.js";
+import { createWindowAt, evaluate, navigateContext } from "./bidi.js";
 import { getChrome } from "./chrome.js";
 import { getFirefox } from "./firefox.js";
 import { getExtensionUrl } from "./extension.js";
@@ -11,7 +11,8 @@ const browser = await (BROWSER === "firefox" ? getFirefox() : getChrome());
 let crashed = false;
 
 try {
-  const recorder = await browser.newWindow(getExtensionUrl('tab.html'));
+  const recorderUrl = getExtensionUrl('tab.html');
+  const recorder = await createWindowAt(browser, recorderUrl);
 
   let lastScenario;
 
@@ -22,7 +23,6 @@ try {
 
     lastScenario = scenario;
 
-    // wait some time between the tests for browser activity to settle
     await new Promise(r => setTimeout(r, 1000));
 
     console.warn(`scenario ${scenario}: Start`);
@@ -43,9 +43,7 @@ try {
         compress: COMPRESS,
       });
 
-      await browser.switchToWindow(recorder)
-      // refresh to clean the events list
-      await browser.navigateTo(getExtensionUrl('tab.html'));
+      await navigateContext(browser, recorder, recorderUrl);
     } catch(e) {
       console.warn(`scenario ${lastScenario}: Error`);
       console.error(e);
@@ -59,4 +57,3 @@ try {
     process.exit(1);
   }
 }
-

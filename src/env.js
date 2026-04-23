@@ -3,6 +3,6 @@ export const SCENARIO = process.argv.includes('--scenario') ? process.argv[proce
 export const BROWSER = process.argv.includes('firefox') ? 'firefox' : 'chrome';
 export const COMPRESS = process.argv.includes('--compress');
 
-if (ONLY && !ONLY.startsWith('--')) {
+if (ONLY && ONLY.startsWith('--')) {
   throw new Error('--only needs an argument <SCENARIOR_NAME>');
 }

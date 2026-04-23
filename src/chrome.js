@@ -5,12 +5,14 @@ export async function getChrome({ headless = true } = {}) {
   const browser = await remote({
     capabilities: {
       browserName: "chrome",
+      browserVersion: "stable",
       webSocketUrl: true,
       "goog:chromeOptions": {
         args: [
-          headless ? 'headless' : undefined,
+          headless ? '--headless=new' : undefined,
           `--load-extension=${getExtensionPath()}`,
           "--disable-search-engine-choice-screen",
+          "--disable-features=DisableLoadExtensionCommandLineSwitch",
         ].filter(Boolean),
         prefs: {
           // enable "Extended preloading" for speculationrules

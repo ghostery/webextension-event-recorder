@@ -14,11 +14,13 @@ const browser = await (BROWSER === "firefox" ? getFirefox({ headless: false }) :
 let recordingStart;
 
 try {
-  const recorder = await browser.newWindow(getExtensionUrl('tab.html'));
+  const recorderWindow = await browser.newWindow(getExtensionUrl('tab.html'));
+  const recorder = recorderWindow.handle ?? recorderWindow;
 
   recordingStart = Date.now()
 
-  const actor = await browser.newWindow('about:blank');
+  const actorWindow = await browser.newWindow('about:blank');
+  const actor = actorWindow.handle ?? actorWindow;
 
   // await actor window being closed which indicates the end of recording
   await new Promise((resolve) => {
