@@ -12,6 +12,8 @@ export async function getChrome({ headless = true } = {}) {
           headless ? '--headless=new' : undefined,
           `--load-extension=${getExtensionPath()}`,
           "--disable-search-engine-choice-screen",
+          "--no-sandbox",
+          "--disable-dev-shm-usage",
         ].filter(Boolean),
         prefs: {
           // enable "Extended preloading" for speculationrules
