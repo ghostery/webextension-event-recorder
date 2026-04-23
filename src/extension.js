@@ -1,7 +1,7 @@
 import path from "node:path";
 import fs from "node:fs";
 import { PROJECT_ROOT_PATH } from "./path.js";
-import { getBrowserName } from "./browser.js";
+import { BROWSER } from "./env.js";
 
 export function getExtensionPath() {
   return path.join(PROJECT_ROOT_PATH, "extension");
@@ -14,7 +14,7 @@ export function getManifest() {
 }
 
 export function getExtensionUrl(path) {
-  if (getBrowserName() === "firefox") {
+  if (BROWSER === "firefox") {
     return `moz-extension://${extensionId}/${path}`;
   }
   return `chrome-extension://${extensionId}/${path}`;

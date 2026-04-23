@@ -1,27 +1,28 @@
-import { evaluate } from "./bidi.js";
-import { getBrowser } from "./browser.js";
+import { createWindowAt, evaluate, navigateContext } from "./bidi.js";
+import { getChrome } from "./chrome.js";
+import { getFirefox } from "./firefox.js";
 import { getExtensionUrl } from "./extension.js";
 import { saveEvents } from "./output.js";
 import { getScenarios, runScenario } from "./scenarios.js";
+import { ONLY, BROWSER, COMPRESS } from "./env.js";
 
-const browser = await getBrowser();
-
-const only = process.argv.includes('--only') ? process.argv[process.argv.findIndex(o => o === '--only') + 1]  : false;
+const browser = await (BROWSER === "firefox" ? getFirefox() : getChrome());
 
 let crashed = false;
 
 try {
-  const recorder = await browser.newWindow(getExtensionUrl('tab.html'));
+  const recorderUrl = getExtensionUrl('tab.html');
+  const recorder = await createWindowAt(browser, recorderUrl);
+
   let lastScenario;
 
   for (const scenario of getScenarios()) {
-    if (only && !scenario.startsWith(only)) {
+    if (ONLY && !scenario.startsWith(ONLY)) {
       continue;
     }
 
     lastScenario = scenario;
 
-    // wait some time between the tests for browser activity to settle
     await new Promise(r => setTimeout(r, 1000));
 
     console.warn(`scenario ${scenario}: Start`);
@@ -39,12 +40,10 @@ try {
       console.warn(`scenario ${scenario}: recorder ${events.length} events`);
 
       saveEvents(scenario, events, {
-        compress: process.argv.includes('--compress'),
+        compress: COMPRESS,
       });
 
-      await browser.switchToWindow(recorder)
-      // refresh to clean the events list
-      await browser.navigateTo(getExtensionUrl('tab.html'));
+      await navigateContext(browser, recorder, recorderUrl);
     } catch(e) {
       console.warn(`scenario ${lastScenario}: Error`);
       console.error(e);
@@ -58,4 +57,3 @@ try {
     process.exit(1);
   }
 }
-

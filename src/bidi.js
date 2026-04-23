@@ -4,12 +4,20 @@
 export async function evaluate(browser, context, expression,) {
   const result = await browser.scriptEvaluate({
     expression,
-    target: {
-      context,
-    },
+    target: { context },
     awaitPromise: false,
   });
   return parseScriptResult(result);
+}
+
+export async function createWindowAt(browser, url) {
+  const { context } = await browser.browsingContextCreate({ type: "window" });
+  await browser.browsingContextNavigate({ context, url, wait: "complete" });
+  return context;
+}
+
+export async function navigateContext(browser, context, url) {
+  await browser.browsingContextNavigate({ context, url, wait: "complete" });
 }
 
 // source https://github.com/webdriverio/webdriverio/blob/d6c0af67c69e2ccf75bb539b067fafe18f681afc/packages/webdriverio/src/utils/bidi/index.ts

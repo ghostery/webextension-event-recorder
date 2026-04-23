@@ -3,11 +3,11 @@ import fs from "node:fs";
 import brotli from "brotli";
 
 import { PROJECT_ROOT_PATH } from "./path.js";
-import { getBrowserName } from "./browser.js";
+import { BROWSER }from "./env.js";
 
 export function saveEvents(scenario, events, { compress = false } = {}) {
   const outputFolderPath = path.join(PROJECT_ROOT_PATH, "output");
-  let outputFilePath = path.join(outputFolderPath, `events_${scenario}_${getBrowserName()}.log`);
+  let outputFilePath = path.join(outputFolderPath, `events_${scenario}_${BROWSER}.log`);
   let output = events.map(event => JSON.stringify(event)).join("\n");
 
   fs.mkdirSync(outputFolderPath, { recursive: true });
